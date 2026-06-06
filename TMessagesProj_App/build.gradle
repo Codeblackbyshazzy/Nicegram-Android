@@ -32,6 +32,8 @@ dependencies {
     implementation files('../TMessagesProj/libs/libgsaverification-client.aar')
 
     // region nicegram
+    implementation 'net.java.dev.jna:jna:5.17.0@aar'
+
     // Firebase
     implementation(platform(internalLibs.firebase.bom))
     implementation(internalLibs.timber)
@@ -215,7 +217,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 35
         versionName APP_VERSION_NAME
-        ndkVersion "21.4.7075529"
+        ndkVersion "27.2.12479018"
 
         multiDexEnabled true
 

@@ -256,7 +256,6 @@ public class AndroidUtilities {
     public final static String TYPEFACE_ROBOTO_MEDIUM_ITALIC = "fonts/rmediumitalic.ttf";
     public final static String TYPEFACE_ROBOTO_MONO = "fonts/rmono.ttf";
     public final static String TYPEFACE_MERRIWEATHER_BOLD = "fonts/mw_bold.ttf";
-    public final static String TYPEFACE_COURIER_NEW_BOLD = "fonts/courier_new_bold.ttf";
 
     public static Typeface mediumTypeface;
     public static ThreadLocal<byte[]> readBufferLocal = new ThreadLocal<>();
@@ -1458,8 +1457,10 @@ public class AndroidUtilities {
         if (context == null || (AndroidUtilities.statusBarHeight > 0 && !force)) {
             return;
         }
-        AndroidUtilities.statusBarHeight = getStatusBarHeight(context);
-        AndroidUtilities.navigationBarHeight = getNavigationBarHeight(context);
+        if (BuildVars.USE_LEGACY_SYSTEM_INSETS) {
+            AndroidUtilities.statusBarHeight = getStatusBarHeight(context);
+            AndroidUtilities.navigationBarHeight = getNavigationBarHeight(context);
+        }
     }
 
     public static int getStatusBarHeight(Context context) {
@@ -3644,19 +3645,35 @@ public class AndroidUtilities {
     }
 
     private static File getAlbumDir(boolean secretChat) {
-        if (
-            secretChat ||
-            !BuildVars.NO_SCOPED_STORAGE ||
-            (
-                Build.VERSION.SDK_INT >= 33 &&
-                ApplicationLoader.applicationContext.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
-            ) || (
-                Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT <= 33 &&
-                ApplicationLoader.applicationContext.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-            )
+        // ng region start
+//        if (
+//            secretChat ||
+//            !BuildVars.NO_SCOPED_STORAGE ||
+//            (
+//                Build.VERSION.SDK_INT >= 33 &&
+//                ApplicationLoader.applicationContext.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
+//            ) || (
+//                Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT <= 33 &&
+//                ApplicationLoader.applicationContext.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+//            )
+//        ) {
+//            return FileLoader.getDirectory(FileLoader.MEDIA_DIR_IMAGE);
+//        }
+        boolean hasMediaAccess = false;
+        if (Build.VERSION.SDK_INT >= 33) {
+            boolean hasFullImages = ApplicationLoader.applicationContext.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED;
+            boolean hasLimited = Build.VERSION.SDK_INT >= 34 && ApplicationLoader.applicationContext.checkSelfPermission(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED) == PackageManager.PERMISSION_GRANTED;
+            hasMediaAccess = hasFullImages || hasLimited;
+        }
+
+        if (secretChat ||
+                !BuildVars.NO_SCOPED_STORAGE ||
+                (Build.VERSION.SDK_INT >= 33 && !hasMediaAccess) ||
+                (Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT < 33 && ApplicationLoader.applicationContext.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         ) {
             return FileLoader.getDirectory(FileLoader.MEDIA_DIR_IMAGE);
         }
+        // ng region end
         File storageDir = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Telegram");
@@ -4263,7 +4280,7 @@ public class AndroidUtilities {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             MimeTypeMap myMime = MimeTypeMap.getSingleton();
-            int idx = fileName.lastIndexOf('.');
+            int idx = fileName == null ? -1 : fileName.lastIndexOf('.');
             if (idx != -1) {
                 String ext = fileName.substring(idx + 1);
                 if (restrict && MessageObject.isV(ext)) {
@@ -4703,7 +4720,7 @@ public class AndroidUtilities {
             tableView.addRow(getString(R.string.UseProxyUsername), user);
         }
         if (!TextUtils.isEmpty(password)) {
-            tableView.addRow(getString(R.string.UseProxyPassword), user);
+            tableView.addRow(getString(R.string.UseProxyPassword), password);
         }
         final ButtonSpan.TextViewButtons[] statusTextView = new ButtonSpan.TextViewButtons[1];
         tableView.addRow(getString(R.string.ProxyStatus), "", statusTextView);

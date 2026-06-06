@@ -38,6 +38,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" /> <!-- ng -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -654,6 +655,15 @@
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
         </service>
+        <!--        <service-->
+        <!--            android:name=".MusicBrowserService"-->
+        <!--            android:exported="true"-->
+        <!--            android:foregroundServiceType="mediaPlayback"-->
+        <!--        >-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.media.browse.MediaBrowserService"/>-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
         <service
             android:name=".voip.TelegramConnectionService"
             android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
@@ -781,11 +791,6 @@
             android:exported="false"
             android:foregroundServiceType="dataSync"
         />
-
-        <service
-            android:name="androidx.sharetarget.ChooserTargetServiceCompat"
-            android:exported="true"
-            tools:node="merge"/>
 
         <uses-library android:name="com.sec.android.app.multiwindow" android:required="false" />
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />

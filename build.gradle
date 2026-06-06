@@ -38,4 +38,14 @@ allprojects {
             }
         }
     }
+    // region ng start
+    configurations.all { configuration ->
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module('net.java.dev.jna:jna') using module('net.java.dev.jna:jna:5.17.0') because 'Force Android AAR version to avoid duplicate classes'
+            }
+        }
+
+        exclude group: 'net.java.dev.jna', module: 'jna'
+    } // region ng end
 }

@@ -2845,7 +2845,32 @@ public final class Util {
 
   @RequiresApi(api = Build.VERSION_CODES.M)
   private static boolean requestExternalStoragePermission(Activity activity) {
-    if (Build.VERSION.SDK_INT >= 33) {
+    if (Build.VERSION.SDK_INT >= 34) { // ng region start
+      ArrayList<String> permissions = new ArrayList<>();
+      boolean hasFullAccess = activity.checkSelfPermission(permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED &&
+                        activity.checkSelfPermission(permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED;
+
+      boolean hasLimitedAccess = activity.checkSelfPermission(permission.READ_MEDIA_VISUAL_USER_SELECTED) == PackageManager.PERMISSION_GRANTED;
+
+      boolean noGalleryPermission = !hasFullAccess && !hasLimitedAccess;
+
+      if (!noGalleryPermission) {
+          permissions.add(permission.READ_MEDIA_VISUAL_USER_SELECTED);
+          permissions.add(permission.READ_MEDIA_VIDEO);
+          permissions.add(permission.READ_MEDIA_IMAGES);
+      }
+
+      if (activity.checkSelfPermission(permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+        permissions.add(permission.READ_MEDIA_AUDIO);
+      }
+
+      if (!permissions.isEmpty()) {
+        activity.requestPermissions(permissions.toArray(new String[0]), /* requestCode= */ 0);
+        return true;
+      }
+      return false;
+    } // ng region end
+    else if (Build.VERSION.SDK_INT >= 33) {
       ArrayList<String> permissions = new ArrayList<>();
       if (activity.checkSelfPermission(permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
         permissions.add(permission.READ_MEDIA_VIDEO);

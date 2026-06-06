@@ -679,7 +679,24 @@ public class CameraScanActivity extends BaseFragment {
                         return;
                     }
                     final Activity activity = getParentActivity();
-                    if (Build.VERSION.SDK_INT >= 33) {
+                    if (Build.VERSION.SDK_INT >= 34) { // ng region start
+                        boolean hasFullAccess = activity.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED &&
+                                activity.checkSelfPermission(Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED;
+
+                        boolean hasLimitedAccess = activity.checkSelfPermission(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED) == PackageManager.PERMISSION_GRANTED;
+
+                        boolean noGalleryPermission = !hasFullAccess && !hasLimitedAccess;
+
+                        if (noGalleryPermission) {
+                            activity.requestPermissions(new String[]{
+                                    Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED,
+                                    Manifest.permission.READ_MEDIA_IMAGES,
+                                    Manifest.permission.READ_MEDIA_VIDEO
+                            }, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
+                            return;
+                        }
+                    } // ng region end
+                    else if (Build.VERSION.SDK_INT >= 33) {
                         if (activity.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
                             activity.requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
                             return;

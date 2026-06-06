@@ -11,6 +11,7 @@ package org.telegram.messenger;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.SurfaceTexture;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.appvillis.nicegram.RoundedVideoHelper;
 
 import org.telegram.messenger.video.MediaCodecPlayer;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
-import org.telegram.messenger.video.VideoPlayerHolderBase;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.InputSerializedData;
 import org.telegram.tgnet.OutputSerializedData;
@@ -31,9 +31,7 @@ import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.Paint.Views.LinkPreview;
 import org.telegram.ui.Components.PhotoFilterView;
-import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
-import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Stories.recorder.CollageLayout;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.Weather;
@@ -42,8 +40,6 @@ import java.io.File;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VideoEditedInfo {
 
@@ -606,7 +602,9 @@ public class VideoEditedInfo {
                             filterState.blurType = serializedData.readInt32(false);
                             filterState.sharpenValue = serializedData.readFloat(false);
                             filterState.blurExcludeSize = serializedData.readFloat(false);
-                            filterState.blurExcludePoint = new Point(serializedData.readFloat(false), serializedData.readFloat(false));
+                            float x = serializedData.readFloat(false);
+                            float y = serializedData.readFloat(false);
+                            filterState.blurExcludePoint = new PointF(x, y);
                             filterState.blurExcludeBlurSize = serializedData.readFloat(false);
                             filterState.blurAngle = serializedData.readFloat(false);
 

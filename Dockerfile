@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 
 ENV ANDROID_SDK_ROOT=/opt/android-sdk
-ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529
+ENV ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.2.12479018
 ENV PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_NDK_HOME
 
 RUN mkdir -p $ANDROID_SDK_ROOT/cmdline-tools && \
@@ -32,10 +32,10 @@ RUN yes | sdkmanager --licenses && \
 
 RUN mkdir -p /opt/android-sdk/ndk && \
     cd /opt/android-sdk/ndk && \
-    wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip && \
-    unzip android-ndk-r21e-linux-x86_64.zip && \
-    mv android-ndk-r21e 21.4.7075529 && \
-    rm android-ndk-r21e-linux-x86_64.zip
+    wget https://dl.google.com/android/repository/android-ndk-r27c-linux.zip && \
+    unzip android-ndk-r27c-linux.zip && \
+    mv android-ndk-r27c 27.2.12479018 && \
+    rm android-ndk-r27c-linux.zip
 
 
 RUN mkdir -p /opt/android-sdk/cmake/3.10.2.4988404 && \
@@ -53,7 +53,3 @@ RUN apt-get update && \
     rm -rf awscliv2.zip aws /var/lib/apt/lists/*
 
 WORKDIR /home/gradle
-
-# COPY . .
-# echo "sdk.dir=/opt/android-sdk" > local.properties
-# echo "ndk.dir=/opt/android-sdk/ndk/21.4.7075529" >> local.properties
