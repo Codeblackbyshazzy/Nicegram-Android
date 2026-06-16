@@ -12698,7 +12698,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         SpecialOffersRepository.SpecialOffer offer = NicegramAssistantHelper.INSTANCE.getSpecialOffer(getContext());
 
         if (hasSeenNgPopupThisSession) {
-            getParentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            Activity activity = getParentActivity();
+            if (activity != null) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            }
             return;
         }
         hasSeenNgPopupThisSession = true;
@@ -12706,12 +12709,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (offer != null) {
             nicegramWalletItem.postDelayed(() -> {
                 if (!isPaused) {
-                    getParentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    MainActivity.Companion.launchSpecialOffer(getParentActivity(), offer.getUrl(), offer.getId());
+                    Activity activity = getParentActivity();
+                    if (activity != null) {
+                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        MainActivity.Companion.launchSpecialOffer(activity, offer.getUrl(), offer.getId());
+                    }
                 }
             }, 0);
         } else {
-            getParentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            Activity activity = getParentActivity();
+            if (activity != null) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            }
         }
     }
 
