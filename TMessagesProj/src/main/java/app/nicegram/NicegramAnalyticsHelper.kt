@@ -1,7 +1,7 @@
 package app.nicegram
 
-import com.appvillis.feature_analytics.data.AnalyticsValue
-import com.appvillis.feature_analytics.domain.AnalyticsEntryPoint
+import com.appvillis.core_analytics.AnalyticsValue
+import com.appvillis.core_analytics.AnalyticsEntryPoint
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.EntryPoints
 import org.telegram.messenger.ApplicationLoader

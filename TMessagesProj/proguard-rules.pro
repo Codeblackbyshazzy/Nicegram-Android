@@ -137,8 +137,7 @@
 }
 
 -keep class androidx.recyclerview.** { *; }
--keep class com.appvillis.core_data.data.** { *; }
--keep class com.appvillis.feature_nuhub.data.NuTagsRepositoryImpl$NuTagJson { *; }
+-keep class com.appvillis.core_network.data.** { *; }
 -keep class com.appvillis.feature_nicegram_assistant.data.SpecialOffersRepositoryImpl$SpecialOfferJson { *; }
 -keep class com.appvillis.feature_nicegram_client.data.NgClientRemoteConfigRepoImpl$DialogsListBannerJson { *; }
 -keep class com.appvillis.feature_nicegram_client.data.NgClientRemoteConfigRepoImpl$DialogsListBannerJson$DialogsListBannerLocaleJson { *; }
@@ -147,8 +146,6 @@
 -keep class com.appvillis.feature_nicegram_client.data.NgClientRemoteConfigRepoImpl$SharingConfigJson { *; }
 -keep class com.appvillis.feature_nicegram_client.data.NgClientRemoteConfigRepoImpl$SharingPopupJson { *; }
 -keep class com.appvillis.feature_nicegram_client.data.NgClientRemoteConfigRepoImpl$OnboardingConfigJson { *; }
--keep class com.appvillis.rep_placements.data.PlacementsRepoImpl { *; }
--keep class com.appvillis.rep_placements.data.PlacementsRepoImpl$* { *; }
 -keep class com.appvillis.feature_attention_economy.data.AttConfigRepositoryImpl { *; }
 -keep class com.appvillis.feature_attention_economy.data.AttConfigRepositoryImpl$* { *; }
 -keep class com.appvillis.feature_ai_chat_analysis.data.AiChatAnalysisRemoteRepoImpl { *; }
@@ -157,7 +154,6 @@
 -keep class com.appvillis.feature_ai_chat_analysis.domain.entities.SourceData { *; }
 
 -keep class com.appvillis.feature_ai_chat.data.** { *; }
--keep class com.appvillis.feature_avatar_generator.data.** { *; }
 
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
  -keep,allowobfuscation,allowshrinking interface retrofit2.Call
@@ -232,8 +228,6 @@ public static final ** CREATOR;
 #web3j end
 
 #wallet
--keep class com.appvillis.nicegram_wallet.wallet_settings.data.RemoteBlockchainsRepositoryImpl$* { *; }
--keep class com.appvillis.nicegram_wallet.wallet_settings.domain.RemoteBlockchainsManager$* { *; }
 -keep class com.appvillis.nicegram_wallet.wallet_walletconnect.data.WcWalletDelegate** { *;}
 -keep class com.appvillis.nicegram_wallet.wallet_web3auth.domain.JwtDecoder** { *;}
 -keep class com.appvillis.nicegram_wallet.wallet_storage.data.WalletRepositoryImpl$* { *; }
@@ -243,15 +237,13 @@ public static final ** CREATOR;
 -keep class com.appvillis.nicegram_wallet.wallet_dapps_storage.data.FavoriteDAppsRepositoryImpl$FavoriteDApp { *; }
 -keep class com.appvillis.nicegram_wallet.wallet_remote_cofig.data.WalletRemoteRepoImpl { *; }
 -keep class com.appvillis.nicegram_wallet.wallet_remote_cofig.data.WalletRemoteRepoImpl$* { *; }
--keep class com.appvillis.feature_ai_chat.data.AiChatCommandsRepositoryImpl { *; }
--keep class com.appvillis.feature_ai_chat.data.AiChatCommandsRepositoryImpl$* { *; }
 -keep class com.appvillis.feature_gods_eye.data.GodsEyeConfigRepositoryImpl { *; }
 -keep class com.appvillis.feature_gods_eye.data.GodsEyeConfigRepositoryImpl$* { *; }
 -keep class com.appvillis.feature_ai_shortcuts.data.SettingsRepositoryImpl { *; }
 -keep class com.appvillis.feature_ai_shortcuts.data.SettingsRepositoryImpl$* { *; }
--keep class com.appvillis.core_data.NicegramEvmSwapApi$* { *; }
--keep class com.appvillis.core_data.NicegramTonSwapApi$* { *; }
--keep class com.appvillis.core_data.ApiService$* { *; }
+-keep class com.appvillis.core_network.NicegramEvmSwapApi$* { *; }
+-keep class com.appvillis.core_network.NicegramTonSwapApi$* { *; }
+-keep class com.appvillis.core_network.ApiService$* { *; }
 -keep class com.appvillis.nicegram_wallet.wallet_tonconnect.domain.TcController { *; }
 -keep class com.appvillis.nicegram_wallet.wallet_tonconnect.domain.TcController$* { *; }
 -keep class com.appvillis.nicegram_wallet.wallet_external_ton.domain.TcConnectionsManager$TcConnection { *; }

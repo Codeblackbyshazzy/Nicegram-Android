@@ -49,7 +49,7 @@ import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appvillis.core_resources.widgets.ToastViewHelper;
+import com.appvillis.core_ui.widgets.ToastViewHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;

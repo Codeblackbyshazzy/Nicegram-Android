@@ -2,11 +2,11 @@ package app.nicegram.domain.usecases
 
 import androidx.annotation.Keep
 import app.nicegram.domain.entitie.PreloadedMedia
-import com.appvillis.core_data.data.body.UploadInitiateMultipleBody
+import com.appvillis.core_domain.OperationResult
+import com.appvillis.core_network.data.body.UploadInitiateMultipleBody
 import com.appvillis.feature_nicegram_client.NicegramClientHelper.preparedChatId
 import com.appvillis.feature_nicegram_client.domain.CollectGroupNetworkService
 import com.appvillis.feature_nicegram_client.domain.etities.UploadInformation
-import com.appvillis.lib_android_base.domain.OperationResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

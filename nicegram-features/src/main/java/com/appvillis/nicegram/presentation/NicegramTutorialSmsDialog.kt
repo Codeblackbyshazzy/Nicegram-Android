@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.text.Html
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.appvillis.lib_android_base.viewBinding
+import com.appvillis.core_ui.util.viewBinding
 import com.appvillis.nicegram.R
 import com.appvillis.nicegram.databinding.DialogSmsTutorialBinding
 import kotlin.math.roundToInt

@@ -30,22 +30,20 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appvillis.core_resources.CoreUiEntryPoint;
-import com.appvillis.core_resources.domain.TgResourceProvider;
-import com.appvillis.core_resources.widgets.ToastViewHelper;
+import com.appvillis.core_ui.CoreUiEntryPoint;
+import com.appvillis.core_ui.domain.TgResourceProvider;
+import com.appvillis.core_ui.widgets.ToastViewHelper;
 import com.appvillis.feature_keywords.domain.entities.KeywordsMessage;
 import com.appvillis.feature_keywords.presentation.ui.EnableTrackingToastView;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLitePreparedStatement;
-import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -88,7 +86,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import dagger.hilt.EntryPoints;
-import timber.log.Timber;
 
 public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 

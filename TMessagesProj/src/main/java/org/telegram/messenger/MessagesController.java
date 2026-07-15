@@ -52,15 +52,12 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
 
 import com.appvillis.assistant_core.MainActivity;
-import com.appvillis.feature_ai_chat.domain.entity.EsimSplashData;
+import com.appvillis.core_ui.Intents;
+import com.appvillis.core_ui.widgets.ToastViewHelper;
+import com.appvillis.feature_ai_chat.domain.entry.EsimSplashData;
 import com.appvillis.feature_nicegram_assistant.UnblockChatBannerToastView;
-import com.appvillis.nicegram.NicegramBillingHelper;
-import com.appvillis.feature_nuhub.ChatBannerToastView;
-import com.appvillis.lib_android_base.Intents;
 import com.appvillis.nicegram.NicegramAssistantHelper;
 import com.appvillis.nicegram.network.NicegramNetwork;
-import com.appvillis.rep_placements.domain.entity.ChatPlacement;
-import com.appvillis.core_resources.widgets.ToastViewHelper;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
@@ -83,11 +80,11 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.Vector;
 import org.telegram.tgnet.tl.TL_account;
 import org.telegram.tgnet.tl.TL_bots;
+import org.telegram.tgnet.tl.TL_chatlists;
 import org.telegram.tgnet.tl.TL_forum;
 import org.telegram.tgnet.tl.TL_phone;
 import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stories;
-import org.telegram.tgnet.tl.TL_chatlists;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -143,7 +140,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import app.nicegram.NicegramDoubleBottom;
-import app.nicegram.PrefsHelper;
 import app.nicegram.bridge.TgBridgeEntryPoint;
 import dagger.hilt.EntryPoints;
 import kotlin.Unit;
@@ -21624,16 +21620,6 @@ public class MessagesController extends BaseController implements NotificationCe
         if (reasons.isEmpty()) {
             return null;
         }
-        if (NicegramNetwork.INSTANCE.getChatsUnblocked()) { // ng unblock
-            boolean hasAnyNotAllowedReason = false;
-            for (TLRPC.RestrictionReason reason : reasons) {
-                if (!NicegramNetwork.INSTANCE.getUnblockReasons().contains(reason.reason)) {
-                    hasAnyNotAllowedReason = true;
-                    break;
-                }
-            }
-            if (!hasAnyNotAllowedReason) return null;
-        }
         for (int a = 0, N = reasons.size(); a < N; a++) {
             TLRPC.RestrictionReason reason = reasons.get(a);
             if (ignoreRestrictionReasons != null && ignoreRestrictionReasons.contains(reason.reason)) continue;
@@ -21823,19 +21809,15 @@ public class MessagesController extends BaseController implements NotificationCe
         String reason;
         if (chat != null) {
             // region ng banner
-            Boolean forAllPlatform = false;
-            Boolean isRestrictedChat = false;
-            Boolean isPornChat = false;
-            Boolean hasNgPremium = NicegramBillingHelper.INSTANCE.getUserHasNgPremiumSub(ApplicationLoader.applicationContext);
+            boolean forAllPlatform = false;
+            boolean isRestrictedChat = false;
             EsimSplashData esimBannerData = null;
-            ChatBannerToastView.ChatBannerData bannerData = null;
             Runnable action = null;
 
             reason = getRestrictionReason(chat.restriction_reason);
             if (reason != null) isRestrictedChat = true;
             for (TLRPC.RestrictionReason reason1 : chat.restriction_reason) {
                 if (reason1.platform.equals("all")) forAllPlatform = true;
-                if (reason1.reason.equals("porn")) isPornChat = true;
             }
 
             if (isRestrictedChat && forAllPlatform) {
@@ -21850,40 +21832,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
 
-            if (esimBannerData == null) {
-                for (ChatPlacement placement : NicegramAssistantHelper.INSTANCE.getPossibleChatPlacements(fragment.getContext(), isRestrictedChat, hasNgPremium)) {
-                    if (PrefsHelper.INSTANCE.canShowChatBannerWithId(fragment.getContext(), placement.getId())) {
-                        bannerData = new ChatBannerToastView.ChatBannerData(
-                            placement.getId(),
-                            placement.getTitle(),
-                            placement.getDesc(),
-                            placement.getImage(),
-                            placement.getBgImage(),
-                            placement.getUrlAndroid()
-                        );
-                        action = () -> Intents.INSTANCE.openUrlThisAppIfPossible(fragment.getParentActivity(), placement.getUrlAndroid());
-                        PrefsHelper.INSTANCE.setCdForChatBannerWithId(fragment.getContext(), placement.getShowAgainAfterSeconds(), placement.getId());
-
-                        break;
-                    }
-                }
-            }
             Runnable finalAction = action;
             if (esimBannerData != null) {
                 UnblockChatBannerToastView toastView = UnblockChatBannerToastView.Companion.newInstance(
                         fragment.getParentActivity(),
-                        () -> {
-                            if (fragment == null || fragment.getParentActivity() == null || finalAction == null) return Unit.INSTANCE;
-
-                            finalAction.run();
-                            return Unit.INSTANCE;
-                        }
-                );
-                ToastViewHelper.INSTANCE.showViewToast(toastView, fragment.getFragmentView(), true, false, AndroidUtilities.dp(24));
-            } else if (bannerData != null ) {
-                ChatBannerToastView toastView = ChatBannerToastView.Companion.newInstance(
-                        fragment.getParentActivity(),
-                        bannerData,
                         () -> {
                             if (fragment == null || fragment.getParentActivity() == null || finalAction == null) return Unit.INSTANCE;
 

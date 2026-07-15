@@ -12,7 +12,7 @@ import com.appvillis.feature_ai_chat_analysis.domain.features.ChatFilter
 import com.appvillis.feature_ai_chat_analysis.presentation.AiChatAnalysisFragmentArgs
 import com.appvillis.feature_ai_chat_analysis.presentation.SessionPickBottomSheetFragment.Companion.create
 import com.appvillis.feature_ai_chat_analysis.presentation.SessionsListFragmentArgs
-import com.appvillis.nicegram.AnalyticsHelper
+import com.appvillis.core_analytics.AnalyticsHelper
 import dagger.hilt.EntryPoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

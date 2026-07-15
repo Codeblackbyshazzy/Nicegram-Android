@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import com.appvillis.feature_nicegram_billing.presentation.NicegramPremiumFragment
 import com.appvillis.feature_nicegram_client.TgThemeHelper
-import com.appvillis.lib_android_base.clearLightStatusBar
-import com.appvillis.lib_android_base.isNightMode
-import com.appvillis.lib_android_base.setLightStatusBar
-import com.appvillis.lib_android_base.setTransparentStatusBar
+import com.appvillis.core_ui.util.clearLightStatusBar
+import com.appvillis.core_ui.util.isNightMode
+import com.appvillis.core_ui.util.setLightStatusBar
+import com.appvillis.core_ui.util.setTransparentStatusBar
 import com.appvillis.nicegram.R
 import dagger.hilt.android.AndroidEntryPoint
 

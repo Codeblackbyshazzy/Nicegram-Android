@@ -1,14 +1,13 @@
 package com.appvillis.nicegram.network
 
 import android.content.Context
-import com.appvillis.core_data.di.NetworkConsts.API_URL
+import com.appvillis.core_network.NetworkConsts.API_URL
 import com.appvillis.nicegram.BuildConfig
 import com.appvillis.nicegram.NicegramScopes.ioScope
 import com.appvillis.nicegram.NicegramScopes.uiScope
 import com.appvillis.nicegram.R
 import com.appvillis.nicegram.network.request.RegDateRequest
 import com.appvillis.nicegram.network.response.RegDateResponse
-import com.appvillis.nicegram.network.response.SettingsRequest
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -104,22 +103,6 @@ object NicegramNetwork {
                 uiScope.launch { callback(null) }
 
                 FirebaseCrashlytics.getInstance().recordException(Throwable("reg date error 0", e))
-            }
-        }
-    }
-
-    var chatsUnblocked = false
-    var unblockReasons = mutableListOf<String>()
-
-    fun getSettings(userId: Long) {
-        ioScope.launch {
-            try {
-                val result = nicegramAppApi.getSettings(SettingsRequest(userId))
-                chatsUnblocked = result.settings.syncChats
-                unblockReasons.clear()
-                unblockReasons.addAll(result.reasons)
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) e.printStackTrace()
             }
         }
     }

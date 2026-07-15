@@ -2,13 +2,14 @@ package app.nicegram
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.appvillis.core_data.ApiService
+import com.appvillis.core_network.ApiService
 import com.appvillis.core_domain.repository.user.UserRepository
+import com.appvillis.core_domain.usecase.openrouter.UpdateOpenRouterBalanceUseCase
 import com.appvillis.core_domain.usecase.user.RefreshUserInfoUseCase
 import com.appvillis.core_markets.MarketFeatureFlagsProvider
-import com.appvillis.feature_analytics.domain.AnalyticsManager
+import com.appvillis.core_analytics.AnalyticsManager
 import com.appvillis.feature_nicegram_billing.data.BillingManagerImpl
-import com.appvillis.feature_nicegram_billing.domain.BillingManager
+import com.appvillis.core_domain.BillingManager
 import com.appvillis.feature_nicegram_billing.domain.PurchaseSync
 import dagger.Module
 import dagger.Provides
@@ -30,20 +31,20 @@ object GooglePlayHiltModule {
         @ApplicationContext context: Context,
         apiService: ApiService,
         userRepository: UserRepository,
-        sharedPreferences: SharedPreferences,
         refreshUserInfoUseCase: RefreshUserInfoUseCase,
         purchaseSync: PurchaseSync,
         analyticsManager: AnalyticsManager,
+        updateOpenRouterBalanceUseCase: UpdateOpenRouterBalanceUseCase
     ): BillingManager =
         BillingManagerImpl(
-            context,
-            CoroutineScope(SupervisorJob() + Dispatchers.IO),
-            apiService,
-            userRepository,
-            refreshUserInfoUseCase,
-            sharedPreferences,
-            purchaseSync,
-            analyticsManager,
+            context = context,
+            appCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
+            apiService = apiService,
+            userRepository = userRepository,
+            refreshUserInfoUseCase = refreshUserInfoUseCase,
+            purchaseSync = purchaseSync,
+            analyticsManager = analyticsManager,
+            updateOpenRouterBalanceUseCase = updateOpenRouterBalanceUseCase
         )
 
     @Provides

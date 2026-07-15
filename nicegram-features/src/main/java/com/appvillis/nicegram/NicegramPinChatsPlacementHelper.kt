@@ -1,7 +1,7 @@
 package com.appvillis.nicegram
 
 import android.content.Context
-import com.appvillis.rep_placements.domain.entity.PinnedChatsPlacement
+import com.appvillis.core_domain.entry.placements.PinnedChatsPlacementEntry
 import dagger.hilt.EntryPoints
 
 object NicegramPinChatsPlacementHelper {
@@ -10,7 +10,7 @@ object NicegramPinChatsPlacementHelper {
 
     fun getPinChatsPlacements(context: Context) = entryPoint(context).getPinChatsPlacementsUseCase().noFilters()
 
-    fun isPinnedChatHidden(context: Context, pin: PinnedChatsPlacement) =
+    fun isPinnedChatHidden(context: Context, pin: PinnedChatsPlacementEntry) =
         entryPoint(context).getPinChatsPlacementsUseCase().pinPlacementIsHidden(pin)
 
     fun setPinnedChatHidden(context: Context, id: String, hidden: Boolean) {

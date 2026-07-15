@@ -77,13 +77,12 @@ import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
 
-import com.appvillis.core_resources.widgets.ToastViewHelper;
+import com.appvillis.core_ui.widgets.ToastViewHelper;
 import com.appvillis.nicegram.NicegramAssistantEntryPoint;
 
 import com.appvillis.nicegram_wallet.wallet_dapps.domain.TgBrowserBridgeFactory;
 import com.appvillis.nicegram_wallet.wallet_dapps.presentation.js_inject.NgWalletInjectHelper;
 
-import org.checkerframework.common.subtyping.qual.Bottom;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,10 +177,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import dagger.hilt.EntryPoints;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 import kotlinx.coroutines.CoroutineScope;
-import timber.log.Timber;
 
 public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final static String DURGER_KING_USERNAME = "DurgerKingBot";

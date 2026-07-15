@@ -34,11 +34,9 @@ import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Property;
 import android.util.SparseIntArray;
 import android.view.HapticFeedbackConstants;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -55,9 +53,8 @@ import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appvillis.assistant_core.MainActivity;
+import com.appvillis.core_analytics.AnalyticsHelper;
 import com.appvillis.feature_keywords.domain.KeywordsConsts;
-import com.appvillis.feature_nicegram_client.NicegramClientHelper;
-import com.appvillis.nicegram.AnalyticsHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -76,7 +73,6 @@ import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 @SuppressLint("ViewConstructor")
 public class FilterTabsView extends FrameLayout {

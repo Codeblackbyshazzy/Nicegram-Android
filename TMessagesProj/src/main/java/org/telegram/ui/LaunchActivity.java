@@ -93,9 +93,9 @@ import com.appvillis.feature_auth.presentation.destinations.AuthLoadingPopupScre
 import com.appvillis.feature_nicegram_assistant.domain.SpecialOffersRepository;
 import com.appvillis.feature_nicegram_client.NicegramClientHelper;
 import com.appvillis.feature_nicegram_client.domain.NgClientRemoteConfigRepo;
-import com.appvillis.lib_android_base.Intents;
+import com.appvillis.core_ui.Intents;
 import com.appvillis.nicegram.AiChatBotHelper;
-import com.appvillis.nicegram.AnalyticsHelper;
+import com.appvillis.core_analytics.AnalyticsHelper;
 import com.appvillis.nicegram.NicegramAssistantHelper;
 import com.appvillis.feature_nicegram_client.presentation.onboarding.NicegramOnboardingActivity;
 import com.appvillis.feature_nicegram_client.presentation.premium.NicegramPremiumActivity;
@@ -272,11 +272,8 @@ import app.nicegram.NicegramDoubleBottom;
 import app.nicegram.NicegramIntroActivity;
 import app.nicegram.NicegramSettingsActivity;
 import app.nicegram.NicegramWalletHelper;
-import app.nicegram.PrefsHelper;
-import app.nicegram.RebirthHelper;
 import app.nicegram.UserHelper;
 import dagger.hilt.android.AndroidEntryPoint;
-import timber.log.Timber;
 
 @AndroidEntryPoint
 public class LaunchActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, IPipActivity {
@@ -9277,9 +9274,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         } else if (url.startsWith("ncg://deeplink")) {
             String internalUrl = data.getQueryParameter("url");
             Intents.INSTANCE.openUrl(this, internalUrl, null, true);
-        } else if (url.equals("ncg://generateImage")) {
-            actionBarLayout.closeLastFragment();
-            MainActivity.Companion.launchImageGeneration(this);
         } else if (url.startsWith("ncg://resolve")) {
             String domain = data.getQueryParameter("domain");
             Intents.INSTANCE.openUrl(this, "https://t.me/" + domain, null, true);
@@ -9298,14 +9292,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (info == null) return;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             MainActivity.Companion.launchWebViewPopup(this, info.getUrl());
-        } else if (url.equals("ncg://avatarMyGenerations")) {
-            // generation flow
-            boolean showWelcome = NicegramAssistantHelper.INSTANCE.shouldShowAvatarsWelcome(this);
-            boolean hasAvatars = NicegramAssistantHelper.INSTANCE.hasGeneratedAvatar(this);
-            MainActivity.Companion.launchAvatarGenerationFlow(this, showWelcome, hasAvatars);
-        } else if (url.equals("ncg://avatarGenerator")) {
-            // generation continue
-            MainActivity.Companion.launchAvatarGenerationSplash(this);
         } else if (url.equals("ncg://wallet/home")) {
             NicegramWalletHelper.INSTANCE.launchWalletIfPossible(this);
         } else if (url.equals("ncg://tgAuthSuccess")) {

@@ -5,15 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.SharedPreferences
-import com.appvillis.core_data.ApiService
-import com.appvillis.core_data.data.body.HuaweiSubscriptionRequestBody
-import com.appvillis.core_data.data.body.HuaweiTopUpRequestBody
-import com.appvillis.core_domain.repository.user.UserBalanceRepository
 import com.appvillis.core_domain.repository.user.UserRepository
-import com.appvillis.feature_nicegram_billing.NicegramConsts
+import com.appvillis.core_domain.usecase.openrouter.UpdateOpenRouterBalanceUseCase
+import com.appvillis.core_network.ApiService
+import com.appvillis.core_network.data.body.HuaweiSubscriptionRequestBody
+import com.appvillis.core_network.data.body.HuaweiTopUpRequestBody
+import com.appvillis.core_common.NicegramConsts
 import com.appvillis.feature_nicegram_billing.R
-import com.appvillis.feature_nicegram_billing.domain.BillingManager
-import com.appvillis.feature_nicegram_billing.domain.InApp
+import com.appvillis.core_domain.BillingManager
+import com.appvillis.core_domain.entry.inapp.InApp
 import com.google.android.exoplayer2.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -44,9 +44,9 @@ class HuaweiBillingManagerImpl(
     private val context: Context,
     private val preferences: SharedPreferences,
     private val appCoroutineScope: CoroutineScope,
-    private val userBalanceRepository: UserBalanceRepository,
     private val userRepository: UserRepository,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val updateOpenRouterBalanceUseCase: UpdateOpenRouterBalanceUseCase
 ) : BillingManager, BillingManager.BillingResultActivity.BillingResultListener {
     companion object {
         private const val TAG = "HuaweiBillingManagerImpl"
@@ -243,7 +243,7 @@ class HuaweiBillingManagerImpl(
                         )
 
                     val result = response.data ?: throw java.lang.Exception(response.message ?: "")
-                    newBalance = result.balance
+                    updateOpenRouterBalanceUseCase(result.aiTokenBalance)
                     Log.d("BILLING_TEST", "response status ${response.status}")
 
                     if (response.status == 200) {
@@ -263,7 +263,6 @@ class HuaweiBillingManagerImpl(
 
                 _billingStateFlow.emit(
                     BillingManager.BillingState.Success(
-                        newBalance,
                         isSub
                     )
                 )
@@ -409,7 +408,6 @@ class HuaweiBillingManagerImpl(
                     appCoroutineScope.launch {
                         _billingStateFlow.emit(
                             BillingManager.BillingState.Success(
-                                userBalanceRepository.gemBalance,
                                 true
                             )
                         )

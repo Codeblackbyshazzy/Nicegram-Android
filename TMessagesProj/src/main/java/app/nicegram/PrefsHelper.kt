@@ -2,7 +2,7 @@ package app.nicegram
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.appvillis.nicegram.AnalyticsHelper.logEvent
+import com.appvillis.core_analytics.AnalyticsHelper.logEvent
 import com.appvillis.nicegram.NicegramAssistantEntryPoint
 import com.appvillis.nicegram.NicegramPrefs
 import com.appvillis.nicegram.NicegramPrefs.PREF_FOREVER_COOL_DOWN

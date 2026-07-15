@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
-import com.appvillis.core_resources.CoreUiEntryPoint
+import com.appvillis.core_ui.CoreUiEntryPoint
 import com.appvillis.feature_account_export.ExportAccountsEntryPoint
 import com.appvillis.feature_account_export.domain.Account
 import com.appvillis.feature_account_export.domain.ExportEventsBridge

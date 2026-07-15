@@ -46,9 +46,9 @@ import androidx.biometric.BiometricManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appvillis.core_resources.widgets.ToastView;
+import com.appvillis.core_ui.widgets.ToastView;
 import com.google.android.exoplayer2.util.Log;
-import com.appvillis.core_resources.widgets.ToastViewHelper;
+import com.appvillis.core_ui.widgets.ToastViewHelper;
 
 import app.nicegram.NicegramDoubleBottom;
 

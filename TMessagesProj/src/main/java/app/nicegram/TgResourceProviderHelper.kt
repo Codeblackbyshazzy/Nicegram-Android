@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
-import com.appvillis.core_resources.domain.TgResourceProvider
+import com.appvillis.core_ui.domain.TgResourceProvider
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.ui.ActionBar.Theme
 

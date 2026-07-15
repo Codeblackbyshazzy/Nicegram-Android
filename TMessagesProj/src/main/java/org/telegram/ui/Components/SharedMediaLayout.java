@@ -75,9 +75,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appvillis.core_resources.CoreUiEntryPoint;
-import com.appvillis.core_resources.domain.TgImagesLoader;
-import com.appvillis.core_resources.domain.TgResourceProvider;
+import com.appvillis.core_ui.CoreUiEntryPoint;
+import com.appvillis.core_ui.domain.TgImagesLoader;
+import com.appvillis.core_ui.domain.TgResourceProvider;
 import com.appvillis.feature_user_activities.presentation.UserActivitiesView;
 
 import org.telegram.messenger.AndroidUtilities;

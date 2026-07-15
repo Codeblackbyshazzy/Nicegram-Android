@@ -9,10 +9,9 @@ import android.widget.FrameLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appvillis.core_resources.widgets.ToastView;
+import com.appvillis.core_ui.widgets.ToastView;
 import com.appvillis.nicegram.AiChatBotHelper;
-import com.appvillis.nicegram.NicegramPrefs;
-import com.appvillis.core_resources.widgets.ToastViewHelper;
+import com.appvillis.core_ui.widgets.ToastViewHelper;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;

@@ -3,8 +3,8 @@ package app.nicegram.bridge
 import android.graphics.Bitmap
 import android.graphics.Color
 import com.appvillis.bridges.user.bridges.TgAuthBridge
-import com.appvillis.core_data.domain.UserLocaleProvider
-import com.appvillis.core_resources.domain.TgImagesLoader
+import com.appvillis.core_network.UserLocaleProvider
+import com.appvillis.core_ui.domain.TgImagesLoader
 import com.appvillis.feature_attention_economy.bridge.AttChatListPeersProvider
 import com.appvillis.feature_auth.domain.TelegramBotBridge
 import com.appvillis.core_domain.TelegramIdBridge

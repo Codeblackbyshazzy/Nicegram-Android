@@ -135,13 +135,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.appvillis.feature_ai_chat.domain.UseResultManager;
 import com.appvillis.feature_ai_chat.domain.TgPendingMessage;
-import com.appvillis.feature_ai_chat.domain.entity.AiCommand;
 import com.appvillis.feature_ai_shortcuts.AiShortcutsEntryPoint;
 import com.appvillis.feature_ai_shortcuts.presentation.AiShortcutsHelper;
 import com.appvillis.feature_nicegram_client.presentation.NgMenuButton;
 import com.appvillis.nicegram.AiChatBotHelper;
-import com.appvillis.nicegram.AnalyticsHelper;
-import com.appvillis.nicegram.NicegramBillingHelper;
+import com.appvillis.core_analytics.AnalyticsHelper;
 import com.appvillis.nicegram.NicegramForwardAsCopy;
 
 import app.nicegram.AiAnalysisHelper;
@@ -394,8 +392,6 @@ public class ChatActivity extends BaseFragment implements
     private static final int NICEGRAM_DELETE_ALL_ACTION_ID = 100006;
     private static final int NICEGRAM_RESTRICT_ACTION_ID = 100007;
     private final static int NICEGRAM_OPTION_SHARE_IMG = 100008;
-
-    private final static int NICEGRAM_OPTION_AI = 100009;
 
     private final static int NICEGRAM_SHOW_MSG_DATA_ACTION_ID = 100010;
     private final static int NICEGRAM_SUBMENU_ACTION_ID = 110000;
@@ -3325,7 +3321,6 @@ public class ChatActivity extends BaseFragment implements
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
 
-        AiChatBotHelper.INSTANCE.unregisterTopUpCallback(); // ng
         AiShortcutsHelper helper = EntryPoints.get(ApplicationLoader.applicationContext, AiShortcutsEntryPoint.class).aiShortcutsUiHelper();
         helper.clean(); // ng
 
@@ -32844,50 +32839,6 @@ public class ChatActivity extends BaseFragment implements
                 didSelectDialogs(null, list,null,false, false, 0, 0, null);
                 break;
             }
-            case NICEGRAM_OPTION_AI: {
-                String text;
-                if (selectedObject.isDice()) {
-                    text = selectedObject.getDiceEmoji();
-                } else {
-                    CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
-                    if (caption != null) {
-                        text = caption.toString();
-                    } else {
-                        text= getMessageContent(selectedObject, 0, false).toString();
-                    }
-                }
-                scrimPopupWindow.dismiss();
-
-                if (text == null) break;
-                final String textFinal = text;
-
-                ActionBarPopupWindow.ActionBarPopupWindowLayout layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext());
-                ActionBarPopupWindow window = new ActionBarPopupWindow(layout, LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT);
-
-                List<AiCommand> contextCommands = AiChatBotHelper.INSTANCE.getContextCommands(getContext());
-                for (AiCommand command: contextCommands) {
-                    ActionBarMenuSubItem item = new ActionBarMenuSubItem(getContext(), true, true);
-                    item.setOnClickListener(v -> {
-                        AiChatBotHelper.INSTANCE.onContextCommandClick(getParentActivity(), command, textFinal);
-                        window.dismiss();
-                    });
-                    item.setText(command.getEmoji() + " " + command.getTitle());
-                    layout.addView(item);
-                }
-                window.setDismissAnimationDuration(220);
-                window.setOutsideTouchable(true);
-                window.setClippingEnabled(true);
-                window.setAnimationStyle(R.style.PopupContextAnimation);
-                window.setFocusable(true);
-
-                int[] outLocation = new int[2];
-                clickView.getLocationOnScreen(outLocation);
-                int distanceFromBottom = contentView.getHeight() - outLocation[1];
-                int extraOffset = 0;
-                if (distanceFromBottom / ((float) contentView.getHeight()) < 0.3f) extraOffset = contentView.getHeight() / 2;
-                window.showAsDropDown(clickView, clickView.getWidth() / 2 - AndroidUtilities.dp(90), -clickView.getHeight() - extraOffset, Gravity.CENTER);
-                break;
-            }
             case NICEGRAM_FORWARD_COPY_ACTION_ID:
             case OPTION_FORWARD: {
                 if (getMessagesController().isFrozen()) {
@@ -44089,9 +44040,6 @@ public class ChatActivity extends BaseFragment implements
             if (oldMargin !=  ((ViewGroup.MarginLayoutParams) ngMenuButton.getLayoutParams()).bottomMargin) ngMenuButton.requestLayout();
         };
         chatListView.addOnLayoutChangeListener(layoutChangeListener);
-
-        AiChatBotHelper.INSTANCE.unregisterTopUpCallback();
-        AiChatBotHelper.INSTANCE.registerTopUpCallback(getParentActivity());
     }
 
     private void addNgMenuOverlay() {

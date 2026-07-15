@@ -1,7 +1,6 @@
 package org.telegram.ui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -39,6 +38,7 @@ public class BasePermissionsActivity extends FragmentActivity {
             REQUEST_CODE_MEDIA_GEO = 211;
 
     protected int currentAccount = -1;
+
 
     protected boolean checkPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (grantResults == null) {

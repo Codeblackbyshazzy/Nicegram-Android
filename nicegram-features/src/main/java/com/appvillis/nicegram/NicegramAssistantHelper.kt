@@ -39,7 +39,4 @@ object NicegramAssistantHelper {
             }
 
     fun getEsimSplashData(context: Context) = entryPoint(context).aiChatRemoteConfigRepo().esimSplashData
-
-    fun shouldShowAvatarsWelcome(context: Context) = !entryPoint(context).avatarsOnboardingUseCase().hasSeenWelcome
-    fun hasGeneratedAvatar(context: Context) = entryPoint(context).getAvatarsUseCase().hasAnyAvatar
 }

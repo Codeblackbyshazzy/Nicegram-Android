@@ -21,7 +21,7 @@ import com.appvillis.feature_nicegram_client.NicegramClientHelper;
 import com.appvillis.feature_nicegram_client.NicegramConsts;
 import com.appvillis.nicegram.NicegramPinChatsPlacementHelper;
 import com.appvillis.nicegram.NicegramPrefs;
-import com.appvillis.rep_placements.domain.entity.PinnedChatsPlacement;
+import com.appvillis.core_domain.entry.placements.PinnedChatsPlacementEntry;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
@@ -91,9 +91,9 @@ public class NicegramSettingsActivity extends BaseFragment {
         abstract String getName();
 
         static class ChatPlacementPin extends PinRow {
-            PinnedChatsPlacement placement;
+            PinnedChatsPlacementEntry placement;
 
-            public ChatPlacementPin(PinnedChatsPlacement placement) {
+            public ChatPlacementPin(PinnedChatsPlacementEntry placement) {
                 this.placement = placement;
             }
             @Override
@@ -107,7 +107,7 @@ public class NicegramSettingsActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         if (!NicegramPinChatsPlacementHelper.INSTANCE.getPinChatsPlacements(ApplicationLoader.applicationContext).isEmpty())
             pinSectionHeaderRow = rowCount++;
-        for (PinnedChatsPlacement placement : NicegramPinChatsPlacementHelper.INSTANCE.getPinChatsPlacements(ApplicationLoader.applicationContext)) {
+        for (PinnedChatsPlacementEntry placement : NicegramPinChatsPlacementHelper.INSTANCE.getPinChatsPlacements(ApplicationLoader.applicationContext)) {
             pinSectionRowsMap.put(rowCount++, new PinRow.ChatPlacementPin(placement));
         }
 
@@ -220,7 +220,7 @@ public class NicegramSettingsActivity extends BaseFragment {
             } else if (pinSectionRowsMap.contains(position)) {
                 PinRow pinRow = pinSectionRowsMap.get(position);
                 if (pinRow instanceof PinRow.ChatPlacementPin) {
-                    PinnedChatsPlacement placement = ((PinRow.ChatPlacementPin) pinRow).placement;
+                    PinnedChatsPlacementEntry placement = ((PinRow.ChatPlacementPin) pinRow).placement;
                     enabled = !NicegramPinChatsPlacementHelper.INSTANCE.isPinnedChatHidden(context, ((PinRow.ChatPlacementPin) pinRow).placement);
                     NicegramPinChatsPlacementHelper.INSTANCE.setPinnedChatHidden(context, placement.getId(), enabled);
                 }
@@ -419,7 +419,7 @@ public class NicegramSettingsActivity extends BaseFragment {
                         PinRow pinRow = pinSectionRowsMap.get(position);
                         boolean checked = false;
                         if (pinRow instanceof PinRow.ChatPlacementPin) {
-                            PinnedChatsPlacement placement = ((PinRow.ChatPlacementPin) pinRow).placement;
+                            PinnedChatsPlacementEntry placement = ((PinRow.ChatPlacementPin) pinRow).placement;
                             checked = !NicegramPinChatsPlacementHelper.INSTANCE.isPinnedChatHidden(mContext, placement);
                         }
                         checkCell.setTextAndCheck(pinRow.getName(), checked, false);

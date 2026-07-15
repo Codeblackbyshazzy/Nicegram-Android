@@ -37,15 +37,14 @@ import androidx.annotation.NonNull;
 import com.appvillis.assistant_core.app.AppInit;
 import com.appvillis.core_domain.usecase.user.AppSessionControlUseCase;
 import com.appvillis.core_domain.usecase.user.GetUserStatusUseCase;
-import com.appvillis.core_resources.MarketConsts;
-import com.appvillis.core_resources.domain.TgResourceProvider;
-import com.appvillis.feature_analytics.data.AnalyticsValue;
+import com.appvillis.core_ui.MarketConsts;
+import com.appvillis.core_ui.domain.TgResourceProvider;
+import com.appvillis.core_analytics.AnalyticsValue;
 import com.appvillis.feature_nicegram_assistant.QrCodeHelper;
 import com.appvillis.feature_nicegram_client.domain.NicegramSessionCounter;
-import com.appvillis.lib_android_base.Intents;
-import com.appvillis.nicegram.AnalyticsHelper;
+import com.appvillis.core_ui.Intents;
+import com.appvillis.core_analytics.AnalyticsHelper;
 import com.appvillis.nicegram.NicegramPrefs;
-import com.appvillis.nicegram.network.NicegramNetwork;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.zxing.BarcodeFormat;
@@ -664,7 +663,6 @@ public class ApplicationLoader extends Application {
         });
 
         AnalyticsHelper.INSTANCE.logEvent(this, getUserStatusUseCase.isUserLoggedIn() ? "nicegram_session_authenticated" : "nicegram_session_anon", null);
-        new Handler().postDelayed(() -> NicegramNetwork.INSTANCE.getSettings(UserConfig.getInstance(UserConfig.selectedAccount).clientUserId), 3000);
         new Handler().postDelayed(() -> {
             int accountCount = 0;
             for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
